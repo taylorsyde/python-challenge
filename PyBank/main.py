@@ -4,16 +4,13 @@ import os
 def summary():
     print(f"Total Months: {total_months}")
     print(f"Total: ${total_amount}")
-    print(f'Average Change: ${change_sum/total_months}')
+    print(f'Average Change: ${change_sum/(total_months-1)}')
     print(f'Greatest Increase in Profits: {max_month} (${max_change})')
     print(f'Greatest Decrease in Profits: {min_month} (${min_change})')
 
 # open the cvs
 budget_csvpath = os.path.join('Resources','budget_data.csv')
-
-prev_month = 0    
-total_months = 0
-total_amount = 0
+  
 change_sum = 0
 max_month = ""
 max_change = 0
@@ -27,7 +24,13 @@ with open(budget_csvpath) as budget_csvfile:
     csvreader = csv.reader(budget_csvfile)
     
     #skips the header
-    next(csvreader)
+    header = next(csvreader)
+
+    #moves to first row of data and grabs the vaules
+    row1 = next(csvreader)
+    prev_month = int(row1[1]) 
+    total_amount = int(row1[1])
+    total_months = 1 
 
     for month in csvreader:
         curr_month = int(month[1])
@@ -35,12 +38,14 @@ with open(budget_csvpath) as budget_csvfile:
         total_amount += curr_month
         curr_change = curr_month - prev_month 
         change_sum += curr_change
+        print(change_sum)
         if curr_change >= max_change:
             max_change = curr_change
             max_month = month[0]
         if curr_change <= min_change:
             min_change = curr_change
             min_month = month[0]
-        month[1] = prev_month
+        prev_month = curr_month
+
         
 summary()
