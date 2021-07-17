@@ -38,7 +38,6 @@ with open(budget_csvpath) as budget_csvfile:
         total_amount += curr_month
         curr_change = curr_month - prev_month 
         change_sum += curr_change
-        print(change_sum)
         if curr_change >= max_change:
             max_change = curr_change
             max_month = month[0]
@@ -47,5 +46,18 @@ with open(budget_csvpath) as budget_csvfile:
             min_month = month[0]
         prev_month = curr_month
 
-        
+
 summary()
+
+# create the ouput file 
+output_file = os.path.join("Analysis","output_summary.md")
+
+# open the output file, create a header row, and then write the zipped object to the csv
+with open(output_file, "w") as datafile:
+    datafile.write(f"Total Months: {total_months}")
+    datafile.write(f"Total: ${total_amount}")
+    datafile.write(f'Average Change: ${change_sum/(total_months-1)}')
+    datafile.write(f'Greatest Increase in Profits: {max_month} (${max_change})')
+    datafile.write(f'Greatest Decrease in Profits: {min_month} (${min_change})')
+      
+
