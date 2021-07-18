@@ -2,11 +2,16 @@ import csv
 import os
 
 def summary():
+    print('Financial Analysis \n')
+    print('----------------------------\n')
     print(f"Total Months: {total_months}")
     print(f"Total: ${total_amount}")
     print(f'Average Change: ${change_sum/(total_months-1)}')
     print(f'Greatest Increase in Profits: {max_month} (${max_change})')
     print(f'Greatest Decrease in Profits: {min_month} (${min_change})')
+
+
+
 
 # open the cvs
 budget_csvpath = os.path.join('Resources','budget_data.csv')
@@ -46,18 +51,20 @@ with open(budget_csvpath) as budget_csvfile:
             min_month = month[0]
         prev_month = curr_month
 
-
+#print summary to terminal
 summary()
 
-# create the ouput file 
-output_file = os.path.join("Analysis","output_summary.md")
+# create the ouput file path
+output_path = os.path.join("Analysis","output_summary.md")
 
-# open the output file, create a header row, and then write the zipped object to the csv
-with open(output_file, "w") as datafile:
-    datafile.write(f"Total Months: {total_months}")
-    datafile.write(f"Total: ${total_amount}")
-    datafile.write(f'Average Change: ${change_sum/(total_months-1)}')
-    datafile.write(f'Greatest Increase in Profits: {max_month} (${max_change})')
-    datafile.write(f'Greatest Decrease in Profits: {min_month} (${min_change})')
+# open the output file and then write the a text file
+with open(output_path, "w") as output_file:
+    output_file.write('Financial Analysis \n')
+    output_file.write('----------------------------\n')
+    output_file.write(f"Total Months: {total_months} \n")
+    output_file.write(f"Total: ${total_amount} \n")
+    output_file.write(f'Average Change: ${change_sum/(total_months-1)} \n')
+    output_file.write(f'Greatest Increase in Profits: {max_month} (${max_change}) \n')
+    output_file.write(f'Greatest Decrease in Profits: {min_month} (${min_change}) \n')
       
 
