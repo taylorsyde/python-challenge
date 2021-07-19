@@ -1,6 +1,5 @@
 #import dependancies
 import csv
-from io import RawIOBase
 import os
 
 # create the path to data
@@ -8,8 +7,14 @@ election_csvpath = os.path.join('Resources','election_data.csv')
 
 # define variables
 total_votes = 0
-canidates = ["Khan","Li","Correy","O'Tooley"]
+canidates = ['Khan',"Li","Correy","O'Tooley"]
 votes_by_canidate = [0,0,0,0]
+
+
+def percent(x):
+    num = x/total_votes
+    percentage = "{:.2%}".format(num)
+    print(percentage)
 
 # open the cvs and begin
 with open(election_csvpath) as election_csvfile:
@@ -33,22 +38,24 @@ with open(election_csvpath) as election_csvfile:
         elif vote_cast == canidates[3]:
             votes_by_canidate[3] += 1
 
+# using list comprehension to convert  my lists to dictionary
+# the internet told me this works I only kinda know what is happening
+results = dict()
+results = {canidates[i]: votes_by_canidate[i] for i in range(len(canidates))}
 
-
-print(total_votes)
-print(canidates)
-print(votes_by_canidate)
+percent(votes_by_canidate[0])
 
 #this stores the results print outs
-results = []
+summary = []
 
 # strings to be printed in final results
-results.append('Election Results')
-results.append('----------------------------')
+summary.append('Election Results')
+summary.append('----------------------------')
 
+print(results)
 
 #print the results to the terminal
-for item in results:
+for item in summary:
     print(item)
 
 # create the ouput file 
@@ -56,8 +63,6 @@ output_file = os.path.join("Analysis","election_results.md")
 
 # open the output file, create a header row, and then write the zipped object to the csv
 with open(output_file, "w") as datafile:
-    for item in results:
+    for item in summary:
         datafile.write(item + '\n')
-
-      
 
