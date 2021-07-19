@@ -1,16 +1,13 @@
 import csv
 import os
 
-def summary():
-    print('Financial Analysis \n')
-    print('----------------------------\n')
-    print(f"Total Months: {total_months}")
-    print(f"Total: ${total_amount}")
-    print(f'Average Change: ${change_sum/(total_months-1)}')
-    print(f'Greatest Increase in Profits: {max_month} (${max_change})')
-    print(f'Greatest Decrease in Profits: {min_month} (${min_change})')
-
-
+    # print('Financial Analysis \n')
+    # print('----------------------------\n')
+    # print(f"Total Months: {total_months}")
+    # print(f"Total: ${total_amount}")
+    # print(f'Average Change: ${change_sum/(total_months-1)}')
+    # print(f'Greatest Increase in Profits: {max_month} (${max_change})')
+    # print(f'Greatest Decrease in Profits: {min_month} (${min_change})')
 
 
 # open the cvs
@@ -21,6 +18,7 @@ max_month = ""
 max_change = 0
 min_month = ""
 min_change = 0 
+summary = []
 
 # open the output file, create a header row, and then write the zipped object to the csv
 with open(budget_csvpath) as budget_csvfile:
@@ -52,19 +50,23 @@ with open(budget_csvpath) as budget_csvfile:
         prev_month = curr_month
 
 #print summary to terminal
-summary()
+
+summary.append('Financial Analysis')
+summary.append('----------------------------')
+summary.append(f"Total Months: {total_months}")
+summary.append(f"Total: ${total_amount}")
+summary.append(f'Average Change: ${change_sum/(total_months-1)}')
+summary.append(f'Greatest Increase in Profits: {max_month} (${max_change})')
+summary.append(f'Greatest Decrease in Profits: {min_month} (${min_change})')
+
+for item in summary:
+    print(item)
 
 # create the ouput file path
 output_path = os.path.join("Analysis","output_summary.md")
 
 # open the output file and then write the a text file
 with open(output_path, "w") as output_file:
-    output_file.write('Financial Analysis \n')
-    output_file.write('----------------------------\n')
-    output_file.write(f"Total Months: {total_months} \n")
-    output_file.write(f"Total: ${total_amount} \n")
-    output_file.write(f'Average Change: ${change_sum/(total_months-1)} \n')
-    output_file.write(f'Greatest Increase in Profits: {max_month} (${max_change}) \n')
-    output_file.write(f'Greatest Decrease in Profits: {min_month} (${min_change}) \n')
-      
-
+    for item in summary:
+        output_file.write(item + "\n")
+    
