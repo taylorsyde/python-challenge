@@ -7,52 +7,69 @@ election_csvpath = os.path.join('Resources','election_data.csv')
 
 # define variables
 total_votes = 0
-canidates = ['Khan',"Li","Correy","O'Tooley"]
-votes_by_canidate = [0,0,0,0]
+candidates = ['Khan',"Li","Correy","O'Tooley"]
+votes_by_candidate = [0,0,0,0]
+percent_by_candidate = []
+
+dashbreak = ('----------------------------')
 
 
+#create function for calculating, formatting and printing %
 def percent(x):
     num = x/total_votes
     percentage = "{:.2%}".format(num)
-    print(percentage)
+    return(percentage)
 
-# open the cvs and begin
+# open the cvs and begin reading
 with open(election_csvpath) as election_csvfile:
     
     #reads each row in the csv as a list
     csvreader = csv.reader(election_csvfile)
     
-    #skips the header
+    #skip the header
     header = next(csvreader)
 
-    #read each row and analyze
+    #read each row and tally votes
     for row in csvreader:
         vote_cast = row[2]
         total_votes += 1
-        if vote_cast == canidates[0]:
-            votes_by_canidate[0] += 1
-        elif vote_cast == canidates[1]:
-            votes_by_canidate[1] += 1
-        elif vote_cast == canidates[2]:
-            votes_by_canidate[2] += 1
-        elif vote_cast == canidates[3]:
-            votes_by_canidate[3] += 1
+        for _ in range(4):
+            if vote_cast == candidates[_]:
+                votes_by_candidate[_] += 1
+        # elif vote_cast == candidates[1]:
+        #     votes_by_candidate[1] += 1
+        # elif vote_cast == candidates[2]:
+        #     votes_by_candidate[2] += 1
+        # elif vote_cast == candidates[3]:
+        #     votes_by_candidate[3] += 1
 
-# using list comprehension to convert  my lists to dictionary
-# the internet told me this works I only kinda know what is happening
-results = dict()
-results = {canidates[i]: votes_by_canidate[i] for i in range(len(canidates))}
+#populate precent of vote by canidate list
+for _ in range(0,4):
+    percent_by_candidate.append(percent(votes_by_candidate[_]))
 
-percent(votes_by_canidate[0])
+
+# use list comprehension to convert my lists to dictionary
+# the internet told me this works, but I only understand half of what is happening
+results_dict = dict()
+results_dict = {candidates[i]: votes_by_candidate[i] for i in range(len(candidates))}
+#this sorts the dict from most highest to lowest votes
+
 
 #this stores the results print outs
 summary = []
 
 # strings to be printed in final results
 summary.append('Election Results')
-summary.append('----------------------------')
+summary.append(dashbreak)
 
-print(results)
+#loops thru the dictonary, prints line and adds to results output list
+for name, votes in results_dict.items():
+    per = percent(votes)
+    summary.append(f'{name}: {per} ({votes})')
+
+
+
+
 
 #print the results to the terminal
 for item in summary:
