@@ -79,7 +79,6 @@ summary.append(dashbreak)
 summary.append(f'Winner: {winner}')
 summary.append(dashbreak)
 
-
 #print the results to the terminal
 for item in summary:
     print(item)
