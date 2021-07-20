@@ -7,7 +7,7 @@ election_csvpath = os.path.join('Resources','election_data.csv')
 
 # define variables
 total_votes = 0
-candidates = ['Khan',"Li","Correy","O'Tooley"]
+candidates = ["O'Tooley",'Khan',"Correy","Li"]
 votes_by_candidate = [0,0,0,0]
 percent_by_candidate = []
 
